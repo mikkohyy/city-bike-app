@@ -11,7 +11,7 @@ Station.init(
       autoIncrement: true,
     },
     stationId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     nameInFinnish: {
@@ -33,6 +33,9 @@ Station.init(
       type: DataTypes.STRING,
     },
     cityInSwedish: {
+      type: DataTypes.STRING,
+    },
+    operator: {
       type: DataTypes.STRING,
     },
     capacity: {

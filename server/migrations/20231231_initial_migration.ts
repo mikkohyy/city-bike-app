@@ -9,7 +9,7 @@ module.exports = {
         autoIncrement: true,
       },
       station_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       name_in_finnish: {
@@ -31,6 +31,9 @@ module.exports = {
         type: DataTypes.STRING,
       },
       city_in_swedish: {
+        type: DataTypes.STRING,
+      },
+      operator: {
         type: DataTypes.STRING,
       },
       capacity: {

@@ -10,7 +10,6 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/api/stations', async (_request, response) => {
-  console.log('hello')
   try {
     const responseData = await Station.findAll({ limit: 20 })
     response.json(responseData)
@@ -18,6 +17,13 @@ app.get('/api/stations', async (_request, response) => {
     console.log(error)
     response.status(400).end()
   }
+})
+
+app.get('/api/test', async (_request, response) => {
+  const responseData = {
+    data: 'response',
+  }
+  response.json(responseData)
 })
 
 module.exports = app

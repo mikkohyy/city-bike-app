@@ -1,6 +1,7 @@
 const { DATABASE_URI } = require('./config')
 const { Umzug, SequelizeStorage } = require('umzug')
 const Sequelize = require('sequelize')
+require('dotenv').config()
 
 const sequelize = new Sequelize(DATABASE_URI, {
   dialect: 'postgres',
@@ -32,7 +33,9 @@ const rollbackMigration = async () => {
 
 const connectToDatabase = async () => {
   try {
-    await runMigrations()
+    if (process.env.NODE_ENV !== 'test') {
+      await runMigrations()
+    }
     await sequelize.authenticate()
     console.log('Connected to database')
   } catch (error) {

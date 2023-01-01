@@ -1,4 +1,6 @@
-## How to run developement environment?
+# Server
+
+## When developing
 
 To be able to run the dev environment you need to have the ability to run Docker containers since the database that is used in development environment runs in a docker container.
 
@@ -24,6 +26,16 @@ Rollback migration (for example when wanting to reset the database)
 
     npm run dev:migration:down
 
+## When tsting
+
 Run tests:
 
     npm run test
+
+Start docker container that creates the needed postgres database. In root directory:
+
+    docker compose -f docker-compose-pg.test.yml up -d
+
+Enter the postgres container:
+
+    docker exec -it city-bike-app-test-postgres-1 psql -U user test-db
