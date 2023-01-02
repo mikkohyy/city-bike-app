@@ -19,7 +19,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test - --runInBand",
+    "test": "react-scripts test",
+    "test:nowatch": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{ts,tsx}'"
   },

@@ -1,7 +1,9 @@
-const { DataTypes } = require('sequelize')
+import { DataTypes } from 'sequelize'
 
 module.exports = {
-  up: async ({ context: queryInterface }: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  up: ({ context: queryInterface }: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     queryInterface.createTable('stations', {
       id: {
         type: DataTypes.INTEGER,
@@ -47,7 +49,9 @@ module.exports = {
       },
     })
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   down: async ({ context: queryInterface }: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     await queryInterface.dropTable('stations')
   },
 }

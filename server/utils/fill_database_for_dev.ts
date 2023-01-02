@@ -1,27 +1,9 @@
-const { connectToDatabase } = require('./db')
-const { Station } = require('../models')
-
-const fs = require('fs')
-const { parse } = require('csv-parse/sync')
-const path = require('path')
-
-/*
-type Stations = {
-  FID: number
-  ID: number
-  Nimi: string
-  Namn: string
-  Name: string
-  Osoite: string
-  Adress: string
-  Kaupunki: string
-  Stad: string
-  Operaattor: string
-  Kapasiteet: string
-  x: number
-  y: number
-}
-*/
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { connectToDatabase } from './db'
+import { Station } from '../models'
+import fs from 'fs'
+import { parse } from 'csv-parse/sync'
+import path from 'path'
 
 const csvFilePath = path.resolve(__dirname, '../dev_data/stations.csv')
 const headers = [
@@ -42,12 +24,14 @@ const headers = [
 
 const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' })
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const stationData = parse(fileContent, {
   delimiter: ',',
   columns: headers,
   from_line: 2,
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
 const formattedStationData = stationData.map((station: any) => {
   return {
     stationId: station.ID,
@@ -67,9 +51,10 @@ const formattedStationData = stationData.map((station: any) => {
 
 const addToDatabase = async () => {
   await connectToDatabase()
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await Station.bulkCreate(formattedStationData, { validate: true })
 }
 
-addToDatabase()
+void addToDatabase()
 
 export {}

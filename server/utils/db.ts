@@ -1,7 +1,8 @@
-const { DATABASE_URI } = require('./config')
-const { Umzug, SequelizeStorage } = require('umzug')
-const Sequelize = require('sequelize')
-require('dotenv').config()
+import { DATABASE_URI } from './config'
+import { Umzug, SequelizeStorage } from 'umzug'
+import { Sequelize } from 'sequelize'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const sequelize = new Sequelize(DATABASE_URI, {
   dialect: 'postgres',
@@ -21,6 +22,7 @@ const runMigrations = async () => {
   const migrations = await migrator.up()
 
   console.log('Migrations up to date', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
     files: migrations.map((mig: any) => mig.name),
   })
 }
@@ -44,10 +46,4 @@ const connectToDatabase = async () => {
   }
 }
 
-module.exports = {
-  sequelize,
-  connectToDatabase,
-  rollbackMigration,
-}
-
-export {}
+export { connectToDatabase, sequelize, rollbackMigration }

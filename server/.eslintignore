@@ -1,2 +1,3 @@
 tsconfig.json
 .eslintrc.js
+../tsconfig_server.json

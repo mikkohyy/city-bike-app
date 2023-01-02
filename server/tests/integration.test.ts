@@ -1,18 +1,18 @@
-const {
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { expect, test } from '@jest/globals'
+
+import {
   getLastIdOfStations,
   stationsInSnakeCaseWithSetDatabaseId,
-} = require('./test_data')
-const { resetDatabase } = require('./database_manipulation')
-const supertest = require('supertest')
-const { Station } = require('../models')
-const app = require('../app')
+} from './test_data'
+import { resetDatabase } from './database_manipulation'
+import supertest from 'supertest'
+import { Station } from '../models'
+import app from '../app'
 const api = supertest(app)
-
-const { sequelize } = require('../utils/db')
+import { sequelize } from '../utils/db'
 const queryInterface = sequelize.getQueryInterface()
-
-// Logging SQL commands while testing is set off, to enable set this to true
-sequelize.options.logging = false
 
 beforeAll(async () => {
   await resetDatabase(queryInterface)
@@ -30,7 +30,7 @@ beforeEach(async () => {
 })
 
 afterAll(async () => {
-  sequelize.close()
+  void (await sequelize.close())
 })
 
 test('test', async () => {

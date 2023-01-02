@@ -1,4 +1,5 @@
-require('dotenv').config()
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const getDatabasesUri = (environment: string | undefined): string => {
   let uri
@@ -39,7 +40,4 @@ const getPort = (environment: string | undefined): string => {
 const DATABASE_URI = getDatabasesUri(process.env.NODE_ENV)
 const PORT = process.env.port || getPort(process.env.NODE_ENV)
 
-module.exports = {
-  PORT,
-  DATABASE_URI,
-}
+export { PORT, DATABASE_URI }

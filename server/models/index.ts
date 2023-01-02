@@ -1,5 +1,3 @@
-const Station = require('./station')
+import Station from './station'
 
-module.exports = {
-  Station,
-}
+export { Station }

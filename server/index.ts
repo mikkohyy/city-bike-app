@@ -1,6 +1,6 @@
-const app = require('./app')
-const { PORT } = require('./utils/config')
-const http = require('http')
+import app from './app'
+import { PORT } from './utils/config'
+import http from 'http'
 
 const server = http.createServer(app)
 

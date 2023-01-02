@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require('sequelize')
-const { sequelize } = require('../utils/db')
+import { Model, DataTypes } from 'sequelize'
+import { sequelize } from '../utils/db'
 
 class Station extends Model {}
 
@@ -49,6 +49,7 @@ Station.init(
     },
   },
   {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     sequelize,
     underscored: true,
     timestamps: false,
@@ -56,6 +57,4 @@ Station.init(
   }
 )
 
-module.exports = Station
-
-export {}
+export default Station

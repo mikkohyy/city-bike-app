@@ -157,7 +157,4 @@ const getLastIdOfStations = () => {
   return lastStationEntry.id
 }
 
-module.exports = {
-  stationsInSnakeCaseWithSetDatabaseId,
-  getLastIdOfStations,
-}
+export { stationsInSnakeCaseWithSetDatabaseId, getLastIdOfStations }

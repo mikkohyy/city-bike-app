@@ -1,10 +1,10 @@
-const cors = require('cors')
+import cors from 'cors'
 import express from 'express'
 const app = express()
-const { connectToDatabase } = require('./utils/db')
-const { Station } = require('./models')
+import { connectToDatabase } from './utils/db'
+import { Station } from './models'
 
-connectToDatabase()
+void connectToDatabase()
 
 app.use(cors())
 app.use(express.json())
@@ -19,11 +19,11 @@ app.get('/api/stations', async (_request, response) => {
   }
 })
 
-app.get('/api/test', async (_request, response) => {
+app.get('/api/test', (_request, response) => {
   const responseData = {
     data: 'response',
   }
   response.json(responseData)
 })
 
-module.exports = app
+export default app

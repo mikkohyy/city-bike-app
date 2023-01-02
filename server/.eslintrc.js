@@ -12,6 +12,9 @@ module.exports = {
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+  },
   plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -20,6 +23,7 @@ module.exports = {
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-misused-promises': 'off',
     'no-case-declarations': 'off',
   },
 }
