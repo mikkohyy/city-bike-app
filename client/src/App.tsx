@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <div>
-      City bike app
+      <div>City bike app</div>
       <TestComponent buttonText='Press here' handleClick={handleClick} />
       {stationData !== undefined
         ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
