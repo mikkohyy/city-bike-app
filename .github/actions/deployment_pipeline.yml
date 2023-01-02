@@ -1,0 +1,39 @@
+name: Lint and test pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test_and_lint_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: npm install server
+        working-directory: ./server
+        run: npm install
+      - name: lint server code
+        working-directory: ./server
+        run: npm run lint
+      - name: start database container
+        run: docker compose -f docker-compose-pg.test.yml up -d
+      - name: run server tests
+        working-directory: ./server
+        env:
+          NODE_ENV: "test"
+          TEST_DB: ${{ secrets.TEST_DB }}
+          TEST_PORT: ${{ secrets.TEST_PORT }}
+        run: npm run test
+      - name: install client
+        working-directory: ./client
+        run: npm install
+      - name: lint client code
+        working-directory: ./client
+        run: npm run lint
+      - name: run component tests
+        working-directory: ./client
+        run: npm run test:nowatch
