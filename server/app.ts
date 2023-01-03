@@ -7,6 +7,7 @@ import { Station } from './models'
 void connectToDatabase()
 
 app.use(cors())
+app.use(express.static('build'))
 app.use(express.json())
 
 app.get('/api/stations', async (_request, response) => {
