@@ -24,7 +24,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "cypress:open": "cypress open",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "build:copy-to-server": "rm -rf ../server/build && npm run build && cp -r build/ ../server"
   },
   "eslintConfig": {
     "extends": [
