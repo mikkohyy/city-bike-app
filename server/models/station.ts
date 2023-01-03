@@ -13,6 +13,7 @@ Station.init(
     stationId: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     nameInFinnish: {
       type: DataTypes.STRING,
@@ -49,7 +50,6 @@ Station.init(
     },
   },
   {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     sequelize,
     underscored: true,
     timestamps: false,

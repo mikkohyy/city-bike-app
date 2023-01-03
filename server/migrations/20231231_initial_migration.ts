@@ -2,9 +2,9 @@ import { DataTypes } from 'sequelize'
 
 module.exports = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  up: ({ context: queryInterface }: any) => {
+  up: async ({ context: queryInterface }: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    queryInterface.createTable('stations', {
+    await queryInterface.createTable('stations', {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -13,6 +13,7 @@ module.exports = {
       station_id: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       name_in_finnish: {
         type: DataTypes.STRING,
@@ -48,9 +49,45 @@ module.exports = {
         type: DataTypes.FLOAT,
       },
     })
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    await queryInterface.createTable('journeys', {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      depature_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      return_time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      depature_station_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: { model: 'stations', key: 'station_id' },
+      },
+      return_station_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: { model: 'stations', key: 'station_id' },
+      },
+      covered_distance_in_meters: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      duration_in_seconds: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    })
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   down: async ({ context: queryInterface }: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    await queryInterface.dropTable('journeys')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     await queryInterface.dropTable('stations')
   },
