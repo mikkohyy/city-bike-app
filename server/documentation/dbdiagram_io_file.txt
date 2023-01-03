@@ -1,0 +1,30 @@
+File that is used to create the database sketch in https://dbdiagram.io/
+
+Table journey {
+  id int [PK]
+  depature_time datetime
+  depature_station_id string
+  return_time datetime
+  return_station_id string
+  covered_distance_in_meters int
+  duration_in_seconds int
+}
+
+Table station {
+  id int [PK]
+  station_id string
+  name_in_finnish string
+  name_in_swedish string
+  name_in_english string
+  address_in_finnish string
+  address_in_swedish string
+  city_in_finnish string
+  city_in_swedish string
+  operator string
+  capacity string
+  x_coordinate float
+  y_coordinate float
+}
+
+Ref: journey.depature_station_id > station.id
+Ref: journey.return_station_id > station.id
