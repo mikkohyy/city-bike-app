@@ -1,9 +1,12 @@
+import { StationId, XCoordinate } from './types'
+
 import {
   isInteger,
   isString,
   isStationId,
   isDate,
   isNumber,
+  isXCoordinate,
 } from './validators'
 
 const parseInteger = (id: unknown): number => {
@@ -22,7 +25,7 @@ const parseString = (string: unknown): string => {
   return string
 }
 
-const parseStationId = (stationId: unknown): string => {
+const parseStationId = (stationId: unknown): StationId => {
   if (!stationId || !isString(stationId) || !isStationId(stationId)) {
     throw new Error('Station id is missing or invalid')
   }
@@ -45,4 +48,19 @@ const parseNumber = (number: unknown): number => {
   return Number(number)
 }
 
-export { parseInteger, parseStationId, parseDate, parseString, parseNumber }
+const parseXCoordinate = (number: unknown): XCoordinate => {
+  if (!number || !isNumber(number) || !isXCoordinate(number)) {
+    throw new Error('Value is missing or is not an x coordinate')
+  }
+
+  return Number(number)
+}
+
+export {
+  parseInteger,
+  parseStationId,
+  parseDate,
+  parseString,
+  parseNumber,
+  parseXCoordinate,
+}

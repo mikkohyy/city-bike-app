@@ -5,6 +5,7 @@ import {
   parseDate,
   parseString,
   parseNumber,
+  parseXCoordinate,
 } from '../../../shared/parsers'
 
 describe('parseDate()', () => {
@@ -106,6 +107,31 @@ describe('parseNumber()', () => {
       expect(() => {
         parseNumber('2c5')
       }).toThrow(new Error('Value is missing or not a number'))
+    })
+  })
+})
+
+describe('parseXCoordinate()', () => {
+  describe('returns a number', () => {
+    test('when value is between -180 and 180 and positive', () => {
+      const parsedXCoordinate = parseXCoordinate('24.810688')
+      expect(parsedXCoordinate).toEqual(24.810688)
+    })
+    test('when value is between -180 and 180 and negative', () => {
+      const parsedXCoordinate = parseXCoordinate('-24.810688')
+      expect(parsedXCoordinate).toEqual(-24.810688)
+    })
+  })
+  describe('throws an error', () => {
+    test('when value is over 180', () => {
+      expect(() => {
+        parseXCoordinate('180.810688')
+      }).toThrow(new Error('Value is missing or is not an x coordinate'))
+    })
+    test('when value is under 180', () => {
+      expect(() => {
+        parseXCoordinate('-180.810688')
+      }).toThrow(new Error('Value is missing or is not an x coordinate'))
     })
   })
 })

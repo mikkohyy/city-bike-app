@@ -5,6 +5,8 @@ import {
   isStationId,
   isDate,
   isNumber,
+  isXCoordinate,
+  isYCoordinate,
 } from '../../../shared/validators'
 
 describe('isDate()', () => {
@@ -93,6 +95,52 @@ describe('isNumber()', () => {
     })
     test('when Infinity', () => {
       const result = isNumber(Infinity)
+      expect(result).toBe(false)
+    })
+  })
+})
+
+describe('isXCoordinate()', () => {
+  describe('returns true', () => {
+    test('when positive and between -180 and 180', () => {
+      const result = isXCoordinate(24.810688)
+      expect(result).toBe(true)
+    })
+    test('when negative and between -180 and 180', () => {
+      const result = isXCoordinate(-24.810688)
+      expect(result).toBe(true)
+    })
+  })
+  describe('returns false', () => {
+    test('when value is over 180', () => {
+      const result = isXCoordinate(180.810688)
+      expect(result).toBe(false)
+    })
+    test('when value is under -180', () => {
+      const result = isXCoordinate(-180.810688)
+      expect(result).toBe(false)
+    })
+  })
+})
+
+describe('isYCoordinate()', () => {
+  describe('returns true', () => {
+    test('when positive and between -90 and 90', () => {
+      const result = isYCoordinate(60.171551)
+      expect(result).toBe(true)
+    })
+    test('when negativeand between -90 and 90', () => {
+      const result = isYCoordinate(-60.171551)
+      expect(result).toBe(true)
+    })
+  })
+  describe('returns false', () => {
+    test('when value is over 90', () => {
+      const result = isYCoordinate(90.810688)
+      expect(result).toBe(false)
+    })
+    test('when value is under -90', () => {
+      const result = isYCoordinate(-90.810688)
       expect(result).toBe(false)
     })
   })

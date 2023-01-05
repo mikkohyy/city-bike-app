@@ -1,4 +1,4 @@
-import { StationId } from './types'
+import { StationId, XCoordinate, YCoordinate } from './types'
 
 const isInteger = (integer: unknown): integer is number => {
   const evaluatedInteger = Number(integer)
@@ -32,4 +32,28 @@ const isNumber = (number: unknown): number is number => {
   }
 }
 
-export { isInteger, isString, isStationId, isDate, isNumber }
+const isXCoordinate = (number: number): number is XCoordinate => {
+  if (number >= -180 && number <= 180) {
+    return true
+  } else {
+    return false
+  }
+}
+
+const isYCoordinate = (number: number): number is YCoordinate => {
+  if (number >= -90 && number <= 90) {
+    return true
+  } else {
+    return false
+  }
+}
+
+export {
+  isInteger,
+  isString,
+  isStationId,
+  isDate,
+  isNumber,
+  isXCoordinate,
+  isYCoordinate,
+}
