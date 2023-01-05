@@ -10,7 +10,7 @@ Journey.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    depatureTime: {
+    departureTime: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -18,7 +18,7 @@ Journey.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
-    depatureStationId: {
+    departureStationId: {
       type: DataTypes.STRING,
       allowNull: false,
       references: { model: 'stations', key: 'stationId' },
