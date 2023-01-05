@@ -20,7 +20,7 @@ describe('toNewJourney()', () => {
       returnTime: '2021-06-01T00:05:46',
       departureStationId: '094',
       returnStationId: '100',
-      coveredDistanceInMeters: 2043,
+      coveredDistanceInMeters: 2043.45,
       durationInSeconds: 500,
     }
 
