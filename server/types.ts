@@ -1,5 +1,5 @@
 import { StationId, YCoordinate, XCoordinate } from '../shared/types'
-4
+
 export interface NewJourney {
   departureTime: string
   returnTime: string
