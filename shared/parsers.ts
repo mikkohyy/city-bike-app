@@ -1,4 +1,4 @@
-import { StationId, XCoordinate } from './types'
+import { StationId, XCoordinate, YCoordinate } from './types'
 
 import {
   isInteger,
@@ -7,6 +7,7 @@ import {
   isDate,
   isNumber,
   isXCoordinate,
+  isYCoordinate,
 } from './validators'
 
 const parseInteger = (id: unknown): number => {
@@ -56,6 +57,14 @@ const parseXCoordinate = (number: unknown): XCoordinate => {
   return Number(number)
 }
 
+const parseYCoordinate = (number: unknown): YCoordinate => {
+  if (!number || !isNumber(number) || !isYCoordinate(number)) {
+    throw new Error('Value is missing or is not an y coordinate')
+  }
+
+  return Number(number)
+}
+
 export {
   parseInteger,
   parseStationId,
@@ -63,4 +72,5 @@ export {
   parseString,
   parseNumber,
   parseXCoordinate,
+  parseYCoordinate,
 }

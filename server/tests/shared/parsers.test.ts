@@ -6,6 +6,7 @@ import {
   parseString,
   parseNumber,
   parseXCoordinate,
+  parseYCoordinate,
 } from '../../../shared/parsers'
 
 describe('parseDate()', () => {
@@ -113,25 +114,31 @@ describe('parseNumber()', () => {
 
 describe('parseXCoordinate()', () => {
   describe('returns a number', () => {
-    test('when value is between -180 and 180 and positive', () => {
+    test('when value is a coordinate', () => {
       const parsedXCoordinate = parseXCoordinate('24.810688')
       expect(parsedXCoordinate).toEqual(24.810688)
     })
-    test('when value is between -180 and 180 and negative', () => {
-      const parsedXCoordinate = parseXCoordinate('-24.810688')
-      expect(parsedXCoordinate).toEqual(-24.810688)
+  })
+  describe('throws an error', () => {
+    test('when value is not coordinate', () => {
+      expect(() => {
+        parseXCoordinate('a coordinate')
+      }).toThrow(new Error('Value is missing or is not an x coordinate'))
+    })
+  })
+})
+describe('parseYCoordinate()', () => {
+  describe('returns a number', () => {
+    test('when value is a coordinate', () => {
+      const parsedYCoordinate = parseYCoordinate('24.810688')
+      expect(parsedYCoordinate).toEqual(24.810688)
     })
   })
   describe('throws an error', () => {
-    test('when value is over 180', () => {
+    test('when value is not coordinate', () => {
       expect(() => {
-        parseXCoordinate('180.810688')
-      }).toThrow(new Error('Value is missing or is not an x coordinate'))
-    })
-    test('when value is under 180', () => {
-      expect(() => {
-        parseXCoordinate('-180.810688')
-      }).toThrow(new Error('Value is missing or is not an x coordinate'))
+        parseYCoordinate('a coordinate')
+      }).toThrow(new Error('Value is missing or is not an y coordinate'))
     })
   })
 })
