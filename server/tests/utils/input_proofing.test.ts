@@ -1,6 +1,6 @@
 import { test, describe, expect } from '@jest/globals'
-import { toNewJourney } from '../../utils/input_proofing'
-import { NewJourney } from '../../types'
+import { toNewJourney, toNewStation } from '../../utils/input_proofing'
+import { NewJourney, NewStation } from '../../types'
 
 describe('toNewJourney()', () => {
   test('returns expected object when data is valid', () => {
@@ -42,6 +42,66 @@ describe('toNewJourney()', () => {
 
     expect(() => {
       toNewJourney(rawData)
+    }).toThrow()
+  })
+})
+
+describe('toNewStation()', () => {
+  test('returns expected object when data is valid', () => {
+    const rawData = {
+      FID: '9',
+      ID: '517',
+      Nimi: 'Länsituuli',
+      Namn: 'Västanvinden',
+      Name: 'Länsituuli',
+      Osoite: 'Länsituulenkuja 3',
+      Adress: 'Västanvindsgränden 3',
+      Kaupunki: 'Espoo',
+      Stad: 'Esbo',
+      Operaattor: 'CityBike Finland',
+      Kapasiteet: '24',
+      x: '24.802049',
+      y: '60.175358',
+    }
+
+    const expectedObject = {
+      stationId: '517',
+      nameInFinnish: 'Länsituuli',
+      nameInSwedish: 'Västanvinden',
+      nameInEnglish: 'Länsituuli',
+      addressInFinnish: 'Länsituulenkuja 3',
+      addressInSwedish: 'Västanvindsgränden 3',
+      cityInFinnish: 'Espoo',
+      cityInSwedish: 'Esbo',
+      operator: 'CityBike Finland',
+      capacity: 24,
+      xCoordinate: 24.802049,
+      yCoordinate: 60.175358,
+    }
+
+    const returnedObject: NewStation = toNewStation(rawData)
+
+    expect(returnedObject).toEqual(expectedObject)
+  })
+  test('throws an error when data is invalid', () => {
+    const rawData = {
+      FID: '9',
+      ID: '517',
+      Nimi: 'Länsituuli',
+      Namn: 'Västanvinden',
+      Name: 'Länsituuli',
+      Osoite: 'Länsituulenkuja 3',
+      Adress: 'Västanvindsgränden 3',
+      Kaupunki: 'Espoo',
+      Stad: 'Esbo',
+      Operaattor: 'CityBike Finland',
+      Kapasiteet: '24',
+      x: '-180.802049',
+      y: '60.175358',
+    }
+
+    expect(() => {
+      toNewStation(rawData)
     }).toThrow()
   })
 })
