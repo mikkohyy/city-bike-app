@@ -1,18 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { connectToDatabase } from './db'
 import { Station, Journey } from '../models'
 import fs from 'fs'
 import { parse } from 'csv-parse/sync'
+import { connectToDatabase } from './db'
 import path from 'path'
-import { toNewJourney } from './input_proofing'
-import { NewJourney } from '../types'
+import { toNewStation, toNewJourney } from './input_proofing'
+import { NewStation, NewJourney } from '../types'
 
-const how = process.argv[2]
-
-const stationCsvFilePath = path.resolve(__dirname, '../dev_data/stations.csv')
-const mayJourneysFilePath = path.resolve(__dirname, '../dev_data/2021-05.csv')
-// const juneJourneysFilePath = path.resolve(__dirname, '../dev_data/2021-06.csv')
-// const julyJourneysFilePath = path.resolve(__dirname, '../dev_data/2021-05.csv')
+const CHUNK_SIZE = 10000
+const MIN_LENGTH = 10
+const MIN_TIME = 10
 
 const stationHeaders = [
   'FID',
@@ -41,85 +37,123 @@ const journeyHeaders = [
   'Duration (sec.)',
 ]
 
-const stationsFileContent = fs.readFileSync(stationCsvFilePath, {
-  encoding: 'utf-8',
-})
+const getHeaders: { [key: string]: () => string[] } = {
+  stations: () => {
+    return stationHeaders
+  },
+  journeys: () => {
+    return journeyHeaders
+  },
+}
 
-const mayJourneysFileContent = fs.readFileSync(mayJourneysFilePath, {
+const printErrorMessage = () => {
+  console.log('Error: Missing arguments')
+  console.log(
+    'When adding stations: npm run dev:fill_database stations <path to source csv file>'
+  )
+  console.log(
+    'When adding journeys: npm run dev:fill_database journeys <source csv file> <csv file of stations>'
+  )
+}
+
+if (process.argv.length < 4) {
+  printErrorMessage()
+  process.exit(1)
+}
+
+const dataType = process.argv[2]
+
+if (dataType === 'journeys' && process.argv.length < 5) {
+  printErrorMessage()
+  process.exit(1)
+}
+
+const fileName = process.argv[3]
+const headers = getHeaders[dataType]()
+const filePath = path.resolve(__dirname, fileName)
+
+const fileContent = fs.readFileSync(filePath, {
   encoding: 'utf-8',
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const stationData = parse(stationsFileContent, {
+const data = parse(fileContent, {
   delimiter: ',',
-  columns: stationHeaders,
+  columns: headers,
   from_line: 2,
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
-const formattedStationData = stationData.map((station: any) => {
-  return {
-    stationId: station.ID,
-    nameInFinnish: station.Name,
-    nameInSwedish: station.Namn,
-    nameInEnglish: station.Name,
-    addressInFinnish: station.Osoite,
-    addressInSwedish: station.Adress,
-    cityInFinnish: station.Osoite,
-    cityInSwedish: station.Stad,
-    operator: station.Operaattor,
-    capacity: station.Kapasiteet,
-    xCoordinate: station.x,
-    yCoordinate: station.y,
-  }
-})
+if (dataType === 'stations') {
+  const parsedStationData: NewStation[] = []
 
-const getFormattedJourneyData = (fileContent: string): NewJourney[] => {
-  const journeyDataNow: NewJourney[] = []
-  const journeysData: [] = parse(fileContent, {
-    delimiter: ',',
-    columns: journeyHeaders,
-    from_line: 2,
-  })
-
-  for (const journey of journeysData) {
+  for (const row of data) {
     try {
-      const formattedJourney = toNewJourney(journey)
-      journeyDataNow.push(formattedJourney)
+      const parsedStation = toNewStation(row)
+      parsedStationData.push(parsedStation)
     } catch (error) {
       console.log(error)
     }
   }
 
-  return journeyDataNow
-}
-
-const formattedMayJourneysData = getFormattedJourneyData(mayJourneysFileContent)
-
-const addStationsToDatabase = async () => {
-  await connectToDatabase()
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  await Station.bulkCreate(formattedStationData, { validate: true })
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const addJourneysToDatabase = async (data: any) => {
-  await connectToDatabase()
-  const chunkSize = 100
-  for (let i = 0; i < data.length; i += chunkSize) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const chunk = data.slice(i, i + chunkSize)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    await Journey.bulkCreate(chunk, { validate: true })
+  const addStationsToDatabase = async () => {
+    await connectToDatabase()
+    for (let i = 0; i < data.length; i += CHUNK_SIZE) {
+      const chunk = parsedStationData.slice(i, i + CHUNK_SIZE)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await Station.bulkCreate(chunk as any[], { validate: true })
+    }
   }
-}
 
-if (how !== 'journeys-o') {
   void addStationsToDatabase()
-}
+} else if (dataType === 'journeys') {
+  const stationsFileName = process.argv[4]
+  const stationsHeaders = getHeaders['stations']()
+  const stationsFilePath = path.resolve(__dirname, stationsFileName)
 
-if (how !== 'stations') {
-  void addJourneysToDatabase(formattedMayJourneysData)
+  const stationsFileContent = fs.readFileSync(stationsFilePath, {
+    encoding: 'utf-8',
+  })
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const stationsData = parse(stationsFileContent, {
+    delimiter: ',',
+    columns: stationsHeaders,
+    from_line: 2,
+  })
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const stationIds: string[] = stationsData.map(
+    (station: { ID: string }) => station.ID
+  )
+
+  const parsedJourneyData: NewJourney[] = []
+
+  for (const row of data) {
+    try {
+      const parsedJourney = toNewJourney(row)
+      if (
+        stationIds.includes(parsedJourney.departureStationId) &&
+        stationIds.includes(parsedJourney.returnStationId) &&
+        parsedJourney.coveredDistanceInMeters >= MIN_LENGTH &&
+        parsedJourney.durationInSeconds >= MIN_TIME
+      ) {
+        parsedJourneyData.push(parsedJourney)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const addJourneysToDatabase = async () => {
+    await connectToDatabase()
+    for (let i = 0; i < data.length; i += CHUNK_SIZE) {
+      const chunk = parsedJourneyData.slice(i, i + CHUNK_SIZE)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await Journey.bulkCreate(chunk as any[], { validate: true })
+    }
+  }
+
+  void addJourneysToDatabase()
 }
 
 export {}
