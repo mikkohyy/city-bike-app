@@ -4,6 +4,7 @@ import {
   isString,
   isStationId,
   isDate,
+  isNumber,
 } from '../../../shared/validators'
 
 describe('isDate()', () => {
@@ -69,6 +70,29 @@ describe('isStationId()', () => {
     })
     test('when the string has a letter', () => {
       const result = isStationId('12a')
+      expect(result).toBe(false)
+    })
+  })
+})
+
+describe('isNumber()', () => {
+  describe('returns true', () => {
+    test('when integer', () => {
+      const result = isNumber('123')
+      expect(result).toBe(true)
+    })
+    test('when float', () => {
+      const result = isNumber('123.4')
+      expect(result).toBe(true)
+    })
+  })
+  describe('returns false', () => {
+    test('when not an integer', () => {
+      const result = isNumber('24a')
+      expect(result).toBe(false)
+    })
+    test('when Infinity', () => {
+      const result = isNumber(Infinity)
       expect(result).toBe(false)
     })
   })

@@ -1,11 +1,25 @@
-import { isInteger, isString, isStationId, isDate } from './validators'
+import {
+  isInteger,
+  isString,
+  isStationId,
+  isDate,
+  isNumber,
+} from './validators'
 
-const parseIntegerId = (id: unknown): number => {
+const parseInteger = (id: unknown): number => {
   if (id === null || isNaN(Number(id)) || !isInteger(id)) {
-    throw new Error('Id is missing or invalid')
+    throw new Error('Value is missing or is not an integer')
   }
 
   return Number(id)
+}
+
+const parseString = (string: unknown): string => {
+  if (!string || !isString(string)) {
+    throw new Error('Value is missing or is not a string')
+  }
+
+  return string
 }
 
 const parseStationId = (stationId: unknown): string => {
@@ -23,4 +37,12 @@ const parseDate = (date: unknown): string => {
   return date
 }
 
-export { parseIntegerId, parseStationId, parseDate }
+const parseNumber = (number: unknown): number => {
+  if (!number || !isNumber(number)) {
+    throw new Error('Value is missing or not a number')
+  }
+
+  return Number(number)
+}
+
+export { parseInteger, parseStationId, parseDate, parseString, parseNumber }

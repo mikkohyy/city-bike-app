@@ -1,8 +1,10 @@
 import { test, expect, describe } from '@jest/globals'
 import {
-  parseIntegerId,
+  parseInteger,
   parseStationId,
   parseDate,
+  parseString,
+  parseNumber,
 } from '../../../shared/parsers'
 
 describe('parseDate()', () => {
@@ -21,32 +23,32 @@ describe('parseDate()', () => {
   })
 })
 
-describe('parseIntegerId()', () => {
+describe('parseInteger()', () => {
   describe('returns integer', () => {
     test("when parameter is '123'", () => {
-      const parsedInteger = parseIntegerId('123')
+      const parsedInteger = parseInteger('123')
       expect(parsedInteger).toBe(123)
     })
     test("when parameter is '0'", () => {
-      const parsedInteger = parseIntegerId('0')
+      const parsedInteger = parseInteger('0')
       expect(parsedInteger).toBe(0)
     })
   })
   describe('throws an error', () => {
     test("when parameter is 'undefined'", () => {
       expect(() => {
-        parseIntegerId(undefined)
-      }).toThrow(new Error('Id is missing or invalid'))
+        parseInteger(undefined)
+      }).toThrow(new Error('Value is missing or is not an integer'))
     })
     test("when data is 'null'", () => {
       expect(() => {
-        parseIntegerId(null)
-      }).toThrow(new Error('Id is missing or invalid'))
+        parseInteger(null)
+      }).toThrow(new Error('Value is missing or is not an integer'))
     })
     test("when parameter is '123.1'", () => {
       expect(() => {
-        parseIntegerId('123.1')
-      }).toThrow(new Error('Id is missing or invalid'))
+        parseInteger('123.1')
+      }).toThrow(new Error('Value is missing or is not an integer'))
     })
   })
 })
@@ -63,6 +65,47 @@ describe('parseStationId()', () => {
       expect(() => {
         parseStationId('12')
       }).toThrow(new Error('Station id is missing or invalid'))
+    })
+  })
+})
+
+describe('parseString()', () => {
+  describe('returns string', () => {
+    test('when valid string', () => {
+      const parsedString = parseString('this is a string')
+      expect(parsedString).toBe('this is a string')
+    })
+  })
+  describe('throws an error', () => {
+    test('when parameter is undefined', () => {
+      expect(() => {
+        parseString(undefined)
+      }).toThrow(new Error('Value is missing or is not a string'))
+    })
+  })
+})
+
+describe('parseNumber()', () => {
+  describe('returns a number', () => {
+    test('when integer is represented in the string', () => {
+      const parsedNumber = parseNumber('234')
+      expect(parsedNumber).toBe(234)
+    })
+    test('when float is represented in the string', () => {
+      const parsedNumber = parseNumber('234.56')
+      expect(parsedNumber).toBe(234.56)
+    })
+  })
+  describe('throws an error', () => {
+    test('when parameter is undefined', () => {
+      expect(() => {
+        parseNumber(undefined)
+      }).toThrow(new Error('Value is missing or not a number'))
+    })
+    test('when parameter does not represent a number', () => {
+      expect(() => {
+        parseNumber('2c5')
+      }).toThrow(new Error('Value is missing or not a number'))
     })
   })
 })

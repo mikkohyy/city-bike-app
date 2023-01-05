@@ -1,8 +1,8 @@
 import { StationId } from './types'
 
-const isInteger = (number: unknown): number is number => {
-  const evaluatedNumber = Number(number)
-  return Number.isInteger(evaluatedNumber)
+const isInteger = (integer: unknown): integer is number => {
+  const evaluatedInteger = Number(integer)
+  return Number.isInteger(evaluatedInteger)
 }
 
 const isString = (text: unknown): text is string => {
@@ -22,4 +22,14 @@ const isDate = (date: string): boolean => {
   }
 }
 
-export { isInteger, isString, isStationId, isDate }
+const isNumber = (number: unknown): number is number => {
+  const evaluatedNumber = Number(number)
+
+  if (isNaN(evaluatedNumber) || !Number.isFinite(evaluatedNumber)) {
+    return false
+  } else {
+    return true
+  }
+}
+
+export { isInteger, isString, isStationId, isDate, isNumber }
