@@ -29,7 +29,7 @@ Journey.init(
       references: { model: 'stations', key: 'stationId' },
     },
     coveredDistanceInMeters: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     durationInSeconds: {

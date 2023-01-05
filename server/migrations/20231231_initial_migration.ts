@@ -75,7 +75,7 @@ module.exports = {
         references: { model: 'stations', key: 'station_id' },
       },
       covered_distance_in_meters: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       duration_in_seconds: {
