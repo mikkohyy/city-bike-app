@@ -56,7 +56,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      depature_time: {
+      departure_time: {
         type: DataTypes.DATE,
         allowNull: false,
       },
@@ -64,7 +64,7 @@ module.exports = {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      depature_station_id: {
+      departure_station_id: {
         type: DataTypes.STRING,
         allowNull: false,
         references: { model: 'stations', key: 'station_id' },
