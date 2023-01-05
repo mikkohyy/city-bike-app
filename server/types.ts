@@ -1,9 +1,5 @@
-export type StationId = string
-
-export type XCoordinate = number
-
-export type YCoordinate = number
-
+import { StationId, YCoordinate, XCoordinate } from '../shared/types'
+4
 export interface NewJourney {
   departureTime: string
   returnTime: string
@@ -14,19 +10,16 @@ export interface NewJourney {
 }
 
 export interface NewStation {
-
+  stationId: StationId
+  nameInFinnish: string
+  nameInSwedish: string
+  nameInEnglish: string
+  addressInFinnish: string
+  addressInSwedish: string
+  cityInFinnish: string
+  cityInSwedish: string
+  operator: string
+  capacity: number
+  yCoordinate: YCoordinate
+  xCoordinate: XCoordinate
 }
-
-    stationId: station.ID,
-    nameInFinnish: station.Name,
-    nameInSwedish: station.Namn,
-    nameInEnglish: station.Name,
-    addressInFinnish: station.Osoite,
-    addressInSwedish: station.Adress,
-    addressInFinnish: station.Osoite,
-    cityInFinnish: station.Kaupunki,
-    cityInSwedish: station.Stad,
-    operator: station.Operaattor,
-    capacity: station.Kapasiteet,
-    xCoordinate: station.x,
-    yCoordinate: station.y,
