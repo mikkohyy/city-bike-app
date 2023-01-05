@@ -2,8 +2,8 @@ File that is used to create the database sketch in https://dbdiagram.io/
 
 Table journey {
   id int [PK]
-  depature_time datetime
-  depature_station_id string
+  departure_time datetime
+  departure_station_id string
   return_time datetime
   return_station_id string
   covered_distance_in_meters int
@@ -26,5 +26,5 @@ Table station {
   y_coordinate float
 }
 
-Ref: journey.depature_station_id > station.id
+Ref: journey.departure_station_id > station.id
 Ref: journey.return_station_id > station.id
