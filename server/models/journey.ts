@@ -21,12 +21,12 @@ Journey.init(
     departureStationId: {
       type: DataTypes.STRING,
       allowNull: false,
-      references: { model: 'stations', key: 'stationId' },
+      references: { model: 'stations', key: 'station_id' },
     },
     returnStationId: {
       type: DataTypes.STRING,
       allowNull: false,
-      references: { model: 'stations', key: 'stationId' },
+      references: { model: 'stations', key: 'station_id' },
     },
     coveredDistanceInMeters: {
       type: DataTypes.FLOAT,
