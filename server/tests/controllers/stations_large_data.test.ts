@@ -53,18 +53,18 @@ beforeAll(async () => {
 })
 
 describe('Stations route with larger dataset (n = 1000)', () => {
-  let receivedData: Response
-
-  beforeAll(async () => {
-    receivedData = await api.get('/api/stations')
-  })
-
   describe('GET /api/stations (no parameters)', () => {
+    let receivedData: Response
+
+    beforeAll(async () => {
+      receivedData = await api.get('/api/stations')
+    })
+
     test('has the expected properties and values (test excludes station data)', () => {
       const responseObject = receivedData.body
 
       const expectedObject: { [index: string]: unknown } = {
-        totalNOfRows: 1000,
+        totalNOfRows: N_OF_STATIONS,
         page: 0,
         pageSize: 50,
         nextPage: 1,
@@ -79,6 +79,34 @@ describe('Stations route with larger dataset (n = 1000)', () => {
     })
     test('stations in data property has expected length', () => {
       expect(receivedData.body.data).toHaveLength(50)
+    })
+  })
+
+  describe('GET /api/stations?page=0&size=2000', () => {
+    let receivedData: Response
+    beforeAll(async () => {
+      receivedData = await api.get('/api/stations?page=0&size=2000')
+    })
+
+    test('has the expected properties and values (test excludes station data)', () => {
+      const responseObject = receivedData.body
+
+      const expectedObject: { [index: string]: unknown } = {
+        totalNOfRows: N_OF_STATIONS,
+        page: 0,
+        pageSize: 2000,
+        nextPage: null,
+        totalPages: 1,
+      }
+
+      for (const key of Object.keys(responseObject)) {
+        if (key !== 'data') {
+          expect(responseObject[key]).toBe(expectedObject[key])
+        }
+      }
+    })
+    test('stations in data property has expected length', () => {
+      expect(receivedData.body.data).toHaveLength(N_OF_STATIONS)
     })
   })
 })
