@@ -2,7 +2,9 @@ import cors from 'cors'
 import express from 'express'
 const app = express()
 import { connectToDatabase } from './utils/db'
-import { Station } from './models'
+import { unknownEndpoint } from './utils/middleware'
+
+import stationRouter from './controllers/stations'
 
 void connectToDatabase()
 
@@ -10,15 +12,7 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 
-app.get('/api/stations', async (_request, response) => {
-  try {
-    const responseData = await Station.findAll({ limit: 20 })
-    response.json(responseData)
-  } catch (error) {
-    console.log(error)
-    response.status(400).end()
-  }
-})
+app.use('/api/stations', stationRouter)
 
 app.get('/api/test', (_request, response) => {
   const responseData = {
@@ -26,5 +20,7 @@ app.get('/api/test', (_request, response) => {
   }
   response.json(responseData)
 })
+
+app.use(unknownEndpoint)
 
 export default app
