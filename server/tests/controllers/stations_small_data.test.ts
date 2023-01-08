@@ -52,7 +52,7 @@ const prepareDatabase = async () => {
   )
 }
 
-describe('Stations route', () => {
+describe('Stations route with small dataset', () => {
   describe('GET /api/stations (no parameters) ', () => {
     let receivedData: Response
 
@@ -72,7 +72,7 @@ describe('Stations route', () => {
           const keysInObject = Object.keys(receivedData.body)
           expect(keysInObject).toHaveLength(EXPECTED_RETURN_OBJECT_KEYS.length)
         })
-        test('has the expected properties and values (excluding station data)', () => {
+        test('has the expected properties and values (test excludes station data)', () => {
           const responseObject = receivedData.body
 
           const expectedObject: { [index: string]: unknown } = {
@@ -150,6 +150,63 @@ describe('Stations route', () => {
             const expectedStations = stationsInCamelCaseWithSetDatabaseId.slice(
               0,
               size
+            )
+
+            for (const station of expectedStations) {
+              expect(receivedData.body.data).toContainEqual(station)
+            }
+          })
+        })
+      })
+    })
+  })
+
+  describe('GET /api/stations?page=2&limit=3', () => {
+    let receivedData: Response
+    const page = 2
+    const size = 3
+
+    beforeAll(async () => {
+      receivedData = await api.get(`/api/stations?page=${page}&size=${size}`)
+    })
+
+    describe('if successful', () => {
+      test('responds with JSON', () => {
+        expect(receivedData.type).toBe('application/json')
+      })
+      test('responds with status code 200', () => {
+        expect(receivedData.statusCode).toBe(200)
+      })
+      describe('reponse object', () => {
+        test('has the expected number of keys', () => {
+          const keysInObject = Object.keys(receivedData.body)
+          expect(keysInObject).toHaveLength(EXPECTED_RETURN_OBJECT_KEYS.length)
+        })
+        test('has the expected properties and values (excluding station data)', () => {
+          const responseObject = receivedData.body
+
+          const expectedObject: { [index: string]: unknown } = {
+            totalNOfRows: 10,
+            page: 2,
+            pageSize: 3,
+            nextPage: 3,
+            totalPages: 4,
+          }
+
+          for (const key of Object.keys(responseObject)) {
+            if (key !== 'data') {
+              expect(responseObject[key]).toBe(expectedObject[key])
+            }
+          }
+        })
+        describe('data property', () => {
+          test('has the expected length', () => {
+            expect(receivedData.body.data).toHaveLength(size)
+          })
+          test('has expected stations', () => {
+            const expectedStations = stationsInCamelCaseWithSetDatabaseId.slice(
+              6,
+              9
             )
 
             for (const station of expectedStations) {

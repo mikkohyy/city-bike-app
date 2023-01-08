@@ -32,4 +32,15 @@ const capitalizeFirstLetter = (word: string): string => {
   return capitalizedWord
 }
 
-export { transformSnakeCaseObjectToCamelCase }
+const generateStationId = (n: number) => {
+  let nAsString = n.toString()
+  const howManyZeroes = 3 - nAsString.length
+
+  for (let i = 0; i < howManyZeroes; i++) {
+    nAsString = '0'.concat(nAsString)
+  }
+
+  return nAsString
+}
+
+export { transformSnakeCaseObjectToCamelCase, generateStationId }
