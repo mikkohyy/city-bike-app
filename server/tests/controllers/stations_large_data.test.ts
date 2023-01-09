@@ -81,7 +81,7 @@ describe('Stations route with larger dataset (n = 1000)', () => {
     })
   })
 
-  describe('GET /api/stations?page=0&size=2000', () => {
+  describe('GET /api/stations?page=0&pageSize=2000', () => {
     const NEW_MAX_PAGE_SIZE = 2000
 
     process.env = {
@@ -91,7 +91,7 @@ describe('Stations route with larger dataset (n = 1000)', () => {
 
     let receivedData: Response
     beforeAll(async () => {
-      receivedData = await api.get('/api/stations?page=0&size=2000')
+      receivedData = await api.get('/api/stations?page=0&pageSize=2000')
     })
 
     test('has the expected properties and values (test excludes station data)', () => {

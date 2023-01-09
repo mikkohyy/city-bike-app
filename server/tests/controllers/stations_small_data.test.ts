@@ -103,13 +103,15 @@ describe('Stations route with small dataset', () => {
       })
     })
   })
-  describe('GET /api/stations?page=0&limit=5', () => {
+  describe('GET /api/stations?page=0&pageSize=5', () => {
     let receivedData: Response
     const page = 0
-    const size = 5
+    const pageSize = 5
 
     beforeAll(async () => {
-      receivedData = await api.get(`/api/stations?page=${page}&size=${size}`)
+      receivedData = await api.get(
+        `/api/stations?page=${page}&pageSize=${pageSize}`
+      )
     })
 
     describe('if successful', () => {
@@ -143,12 +145,12 @@ describe('Stations route with small dataset', () => {
         })
         describe('data property', () => {
           test('has the expected length', () => {
-            expect(receivedData.body.data).toHaveLength(size)
+            expect(receivedData.body.data).toHaveLength(pageSize)
           })
           test('has expected stations', () => {
             const expectedStations = stationsInCamelCaseWithSetDatabaseId.slice(
               0,
-              size
+              pageSize
             )
 
             for (const station of expectedStations) {
@@ -160,13 +162,15 @@ describe('Stations route with small dataset', () => {
     })
   })
 
-  describe('GET /api/stations?page=2&size=3', () => {
+  describe('GET /api/stations?page=2&pageSize=3', () => {
     let receivedData: Response
     const page = 2
-    const size = 3
+    const pageSize = 3
 
     beforeAll(async () => {
-      receivedData = await api.get(`/api/stations?page=${page}&size=${size}`)
+      receivedData = await api.get(
+        `/api/stations?page=${page}&pageSize=${pageSize}`
+      )
     })
 
     describe('if successful', () => {
@@ -200,7 +204,7 @@ describe('Stations route with small dataset', () => {
         })
         describe('data property', () => {
           test('has the expected length', () => {
-            expect(receivedData.body.data).toHaveLength(size)
+            expect(receivedData.body.data).toHaveLength(pageSize)
           })
           test('has expected stations', () => {
             const expectedStations = stationsInCamelCaseWithSetDatabaseId.slice(
@@ -220,7 +224,7 @@ describe('Stations route with small dataset', () => {
   describe('when users asks for too many resources at once', () => {
     let receivedData: Response
     const page = 0
-    const size = 10000
+    const pageSize = 10000
     const NEW_MAX_PAGE_SIZE = 1000
 
     beforeAll(async () => {
@@ -229,7 +233,9 @@ describe('Stations route with small dataset', () => {
         MAX_PAGE_SIZE: NEW_MAX_PAGE_SIZE.toString(),
       }
 
-      receivedData = await api.get(`/api/stations?page=${page}&size=${size}`)
+      receivedData = await api.get(
+        `/api/stations?page=${page}&pageSize=${pageSize}`
+      )
     })
 
     test('responds with 400', () => {

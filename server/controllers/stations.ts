@@ -13,7 +13,7 @@ stationsRouter.get(
   async (request, response, next) => {
     const page = getIntegerParameter(request.query.page) || DEFAULT_PAGE
     const pageSize =
-      getIntegerParameter(request.query.size) || DEFAULT_PAGE_SIZE
+      getIntegerParameter(request.query.pageSize) || DEFAULT_PAGE_SIZE
 
     try {
       const responseData = await Station.findAndCountAll({

@@ -21,10 +21,10 @@ describe('validateRequestParameters()', () => {
   }
 
   describe('when validating GET /api/station requests', () => {
-    test('when valid parameters (?page=0&size=5)', () => {
+    test('when valid parameters (?page=0&pageSize=5)', () => {
       const mockNext = jest.fn()
 
-      const parameters = { page: 0, size: 5 }
+      const parameters = { page: 0, pageSize: 5 }
       const request = new MockRequest(undefined, parameters)
 
       validateRequestParameters(
@@ -35,12 +35,12 @@ describe('validateRequestParameters()', () => {
 
       expect(mockNext).toHaveBeenCalledTimes(1)
     })
-    test(`when invalid parameters (?page=0&size=${
+    test(`when invalid parameters (?page=0&pageSize=${
       NEW_MAX_PAGE_SIZE + 1
     })`, () => {
       const mockNext = jest.fn()
 
-      const parameters = { page: 0, size: NEW_MAX_PAGE_SIZE + 1 }
+      const parameters = { page: 0, pageSize: NEW_MAX_PAGE_SIZE + 1 }
       const request = new MockRequest(undefined, parameters)
 
       expect(() => {
