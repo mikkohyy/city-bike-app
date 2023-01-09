@@ -15,7 +15,11 @@ const validateRequestParameters = (
 
   const { size } = request.query
 
-  if (size && Number(size) > Number(process.env.MAX_PAGE_SIZE)) {
+  if (
+    size &&
+    !isNaN(Number(size)) &&
+    Number(size) > Number(process.env.MAX_PAGE_SIZE)
+  ) {
     errors.push(
       `Page size should be smaller than or equal to ${process.env.MAX_PAGE_SIZE}.`
     )
