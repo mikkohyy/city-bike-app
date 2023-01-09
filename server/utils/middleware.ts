@@ -8,12 +8,17 @@ const unknownEndpoint = (_request: Request, response: Response) => {
 }
 
 const errorHandler = (
-  error: CustomError,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any,
   _request: Request,
-  response: Response
+  response: Response,
+  _next: NextFunction
 ) => {
   if (error.type === 'CustomError') {
-    return response.status(error.statusCode).json({ error: error.message })
+    const customError = error as CustomError
+    return response
+      .status(customError.statusCode)
+      .json({ error: customError.message })
   } else {
     return response.status(500).end()
   }

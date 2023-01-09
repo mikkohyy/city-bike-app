@@ -11,12 +11,11 @@ import {
 } from '../test_data'
 
 import { resetDatabase } from '../database_manipulation'
-import supertest from 'supertest'
+import supertest, { Response } from 'supertest'
 import { Station, Journey } from '../../models'
 import app from '../../app'
 const api = supertest(app)
 import { sequelize } from '../../utils/db'
-import { Response } from 'superagent'
 const queryInterface = sequelize.getQueryInterface()
 
 const EXPECTED_RETURN_OBJECT_KEYS = [
@@ -161,7 +160,7 @@ describe('Stations route with small dataset', () => {
     })
   })
 
-  describe('GET /api/stations?page=2&limit=3', () => {
+  describe('GET /api/stations?page=2&size=3', () => {
     let receivedData: Response
     const page = 2
     const size = 3
@@ -215,6 +214,34 @@ describe('Stations route with small dataset', () => {
           })
         })
       })
+    })
+  })
+
+  describe('when users asks for too many resources at once', () => {
+    let receivedData: Response
+    const page = 0
+    const size = 10000
+    const NEW_MAX_PAGE_SIZE = 1000
+
+    beforeAll(async () => {
+      process.env = {
+        ...process.env,
+        MAX_PAGE_SIZE: NEW_MAX_PAGE_SIZE.toString(),
+      }
+
+      receivedData = await api.get(`/api/stations?page=${page}&size=${size}`)
+    })
+
+    test('responds with 400', () => {
+      expect(receivedData.statusCode).toBe(400)
+    })
+    test('responds with expected error', () => {
+      const expectedObject = {
+        error: `Page size should be smaller than or equal to ${NEW_MAX_PAGE_SIZE}.`,
+      }
+      const receivedObject = receivedData.body
+
+      expect(receivedObject).toEqual(expectedObject)
     })
   })
 })

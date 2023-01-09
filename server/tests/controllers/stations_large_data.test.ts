@@ -3,12 +3,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { expect, describe } from '@jest/globals'
 import { resetDatabase } from '../database_manipulation'
-import supertest from 'supertest'
+import supertest, { Response } from 'supertest'
 import { Station, Journey } from '../../models'
 import app from '../../app'
 const api = supertest(app)
 import { sequelize } from '../../utils/db'
-import { Response } from 'superagent'
 const queryInterface = sequelize.getQueryInterface()
 import { generateStationId } from '../test_helpers'
 
@@ -83,6 +82,13 @@ describe('Stations route with larger dataset (n = 1000)', () => {
   })
 
   describe('GET /api/stations?page=0&size=2000', () => {
+    const NEW_MAX_PAGE_SIZE = 2000
+
+    process.env = {
+      ...process.env,
+      MAX_PAGE_SIZE: NEW_MAX_PAGE_SIZE.toString(),
+    }
+
     let receivedData: Response
     beforeAll(async () => {
       receivedData = await api.get('/api/stations?page=0&size=2000')

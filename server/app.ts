@@ -2,7 +2,7 @@ import cors from 'cors'
 import express from 'express'
 const app = express()
 import { connectToDatabase } from './utils/db'
-import { unknownEndpoint } from './utils/middleware'
+import { unknownEndpoint, errorHandler } from './utils/middleware'
 
 import stationRouter from './controllers/stations'
 
@@ -21,6 +21,7 @@ app.get('/api/test', (_request, response) => {
   response.json(responseData)
 })
 
+app.use(errorHandler)
 app.use(unknownEndpoint)
 
 export default app

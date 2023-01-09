@@ -70,7 +70,10 @@ describe('validateRequestParameters()', () => {
         receivedData = errorHandler(
           error,
           {} as Request,
-          mockResponse as unknown as Response
+          mockResponse as unknown as Response,
+          function () {
+            /*empty*/
+          } as NextFunction
         )
       })
 
@@ -97,7 +100,10 @@ describe('validateRequestParameters()', () => {
         receivedData = errorHandler(
           error,
           {} as Request,
-          mockResponse as unknown as Response
+          mockResponse as unknown as Response,
+          function () {
+            /*empty*/
+          } as NextFunction
         )
       })
 
