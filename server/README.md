@@ -18,9 +18,17 @@ Enter the postgres container eg:
 
     docker exec -it city-bike-app-dev-postgres-1 psql -U user dev-db
 
-Fill database with data
+To aid with development, I have made a ccommad that fills the database with data. It can be used to add stations or journeys. The program expects the data to be in the same form that can be downloaded from the [pre-assigment github](https://github.com/solita/dev-academy-2023-exercise) Here is how you can use it:
 
-    npm run dev:fill_database
+    npm run dev:fill_database <stations | journey > <csv file location> <csv with all stations (only when adding journeys)>
+
+When adding stations:
+
+    npm run dev:fill_database stations stations.csv
+
+When adding journeys (NOTE: to be able to validate that journey starts or ends on an existing station, it needs to get a file that has the stations):
+
+    npm run dev:fill_database journeys 2021-05.csv stations.csv
 
 Rollback migration (for example when wanting to reset the database)
 

@@ -5,7 +5,7 @@
     "dev:migration:down": "NODE_ENV=development ts-node utils/db_rollback.ts",
     "dev:fill_database": "NODE_ENV=development ts-node utils/fill_database_for_dev.ts",
     "lint": "eslint --ext .ts .",
-    "test": "NODE_ENV=test jest --verbose",
+    "test": "NODE_ENV=test jest --verbose --runInBand",
     "start:test:server": "NODE_ENV=test ts-node-dev index.ts"
   },
   "devDependencies": {

@@ -6,6 +6,8 @@ This is first app I have developed with TypeSript, before this I had aquired som
 
 Both, frontend and backend of the app are located in the same repository. On more info on these sides of the apps and how to use or continue develpe them, navigate to [server](/server) directory or to [client](/client) directory. Other relevant parts are [things to fix in the future](things_to_be_fixed.md) and [instructions on how to use the app](instructions.md).
 
+One note about the structure of repository is that although there although the /shared folder is located in the root, its tests are located in /server/tests/shared. This choice was made because configuring testing for the root directory would have made things more complex and the syle of testing that is done with shared functions / modules resembles testing done in the server.
+
 ## Go to
 
 ### [Server](/server)
