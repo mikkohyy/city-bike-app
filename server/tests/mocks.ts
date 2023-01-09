@@ -15,6 +15,10 @@ class MockResponse {
     this.jsonValue = object
     return this
   }
+
+  end() {
+    return this
+  }
 }
 
 class MockRequest {
