@@ -34,7 +34,9 @@ Rollback migration (for example when wanting to reset the database)
 
     npm run dev:migration:down
 
-## When tsting
+## When testing
+
+### Backend testing
 
 Run tests:
 
@@ -47,3 +49,19 @@ Start docker container that creates the needed postgres database. In root direct
 Enter the postgres container:
 
     docker exec -it city-bike-app-test-postgres-1 psql -U user test-db
+
+### End to end tests with cypress
+
+You have to have the server with recent frontend build running. To run the end to end tests, you need to do three steps. Or you can also use running frontend if you want. To build the frontend use the following command in the frontend directory.
+
+    npm run build:copy-to-server
+
+Then start the server from the server directory with
+
+    npm run start:test:server
+
+After that run end to end tests from the server directory
+
+    npm run test:e2e
+
+After this the end to end tests should execute.
