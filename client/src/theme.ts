@@ -3,6 +3,7 @@ const palette = {
   darker: '#408080',
   dark: '#6ddada',
   light: '#ffffff',
+  selected: '#ffffff',
 }
 
 const generalProperties = {
@@ -19,7 +20,6 @@ const containers = {
     main: {
       display: 'flex',
       background: palette.dark,
-      padding: '1em',
       justifyContent: 'space-between',
     },
     buttons: {
@@ -36,6 +36,7 @@ const buttons = {
       textDecoration: 'none',
       fontSize: '1.5em',
       color: palette.darkest,
+      padding: '0.5em 0.5em 0.5em 0.5em',
     },
     hovered: {
       color: palette.darker,
