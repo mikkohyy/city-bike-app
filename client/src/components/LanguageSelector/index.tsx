@@ -10,7 +10,7 @@ const LanguageSelector = () => {
   return (
     <Container>
       <label htmlFor='languages'>Station name language</label>
-      <select name='languages' id='langauges'>
+      <select name='languages' id='languages'>
         <option value='finnish'>Finnish</option>
         <option value='swedish'>Swedish</option>
         <option value='english'>English</option>
