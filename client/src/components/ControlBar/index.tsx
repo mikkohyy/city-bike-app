@@ -1,17 +1,31 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import LanguageSelector from '../LanguageSelector'
 
 const ControlBarContainer = styled.div`
-  ${(props) => props.theme.components.containers.controlBar}
+  ${(props) => props.theme.components.containers.controlBar.main}
+`
+
+const ButtonsContainer = styled.div`
+  ${(props) => props.theme.components.containers.controlBar.buttons}
+`
+
+const LinkButton = styled(Link)`
+  ${(props) => props.theme.components.buttons.controlBarButton.basic}
+  :hover {
+    ${(props) => props.theme.components.buttons.controlBarButton.hovered}
+  }
 `
 
 const ControlBar = () => {
   return (
     <ControlBarContainer>
-      <Link to='/'>City bike app</Link>
-      <Link to='/stations'>Stations</Link>
-      <Link to='/journeys'>Journeys</Link>
-      <div>Language selector</div>
+      <ButtonsContainer>
+        <LinkButton to='/'>City bike app</LinkButton>
+        <LinkButton to='/stations'>Stations</LinkButton>
+        <LinkButton to='/journeys'>Journeys</LinkButton>
+      </ButtonsContainer>
+      <LanguageSelector />
     </ControlBarContainer>
   )
 }

@@ -1,10 +1,12 @@
 const palette = {
-  dark: '#259b9A',
+  darkest: '#000000',
+  darker: '#408080',
+  dark: '#6ddada',
   light: '#ffffff',
 }
 
 const generalProperties = {
-  marginFromSides: '4em',
+  marginFromSides: '5em',
 }
 
 const containers = {
@@ -14,9 +16,30 @@ const containers = {
     border: 'solid 2px black',
   },
   controlBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '1em',
+    main: {
+      display: 'flex',
+      background: palette.dark,
+      padding: '1em',
+      justifyContent: 'space-between',
+    },
+    buttons: {
+      display: 'flex',
+      flexDirection: 'row',
+      gap: '1em',
+    },
+  },
+}
+
+const buttons = {
+  controlBarButton: {
+    basic: {
+      textDecoration: 'none',
+      fontSize: '1.5em',
+      color: palette.darkest,
+    },
+    hovered: {
+      color: palette.darker,
+    },
   },
 }
 
@@ -25,6 +48,7 @@ const theme = {
   generalProperties,
   components: {
     containers,
+    buttons,
   },
 }
 
