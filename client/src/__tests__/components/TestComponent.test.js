@@ -31,8 +31,8 @@ describe('<TestComponent>', () => {
   })
 
   describe('After user actions', () => {
-    beforeEach(() => {
-      userEvent.type(inputField, 'Test text')
+    beforeEach(async () => {
+      await userEvent.type(inputField, 'Test text')
     })
 
     test('Input field has changed', () => {
@@ -43,8 +43,8 @@ describe('<TestComponent>', () => {
       expect(button).not.toBeDisabled()
     })
 
-    test('Function is called when clicked', () => {
-      userEvent.click(button)
+    test('Function is called when clicked', async () => {
+      await userEvent.click(button)
       expect(onClickMock).toBeCalledTimes(1)
     })
   })
