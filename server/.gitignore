@@ -5,3 +5,5 @@ todo.txt
 dev_data/
 notes.txt
 build/
+/cypress/videos
+/cypress/screenshots
