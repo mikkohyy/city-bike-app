@@ -4,7 +4,7 @@ export type LanguageContextType = {
   stationNameKey: string
   stationAddressKey: string
   cityNameKey: string
-  setLanguage(language: string): void
+  setLanguage(language: Language): void
   defaultLanguage: Language
 }
 

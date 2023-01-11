@@ -14,7 +14,7 @@ const ButtonsContainer = styled.div`
 `
 
 const ControlBar = () => {
-  const { languageChoices, defaultLanguage }: LanguageContextType =
+  const { languageChoices, defaultLanguage, setLanguage }: LanguageContextType =
     useLanguageSelector()
 
   const [selectedView, setSelectedView] = useState<string | undefined>(
@@ -50,6 +50,7 @@ const ControlBar = () => {
       <LanguageSelector
         values={languageChoices}
         defaultValue={defaultLanguage}
+        setLanguage={setLanguage}
       />
     </ControlBarContainer>
   )
