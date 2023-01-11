@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { Language } from '../../../../types'
+import userEvent from '@testing-library/user-event'
 
 const languages: Language[] = ['Finnish', 'Swedish', 'English']
 const defaultValue: Language = 'English'
@@ -45,5 +46,13 @@ describe('<LanguageSelector>', () => {
       name: defaultValue,
     }) as HTMLOptionElement
     expect(defaultOption.selected).toBe(true)
+  })
+
+  test('when language is changed, setLanguage is called with expected value', async () => {
+    const selectedLanguage = languages[1]
+
+    const selector = screen.getByLabelText('Station name language')
+    await userEvent.selectOptions(selector, selectedLanguage)
+    expect(mockSetLanguage).toBeCalledWith(selectedLanguage)
   })
 })
