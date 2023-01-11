@@ -28,6 +28,12 @@ const containers = {
       gap: '1em',
     },
   },
+  languageSelector: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5em',
+    padding: '1em',
+  },
 }
 
 const buttons = {

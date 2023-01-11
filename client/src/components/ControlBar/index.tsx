@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
-import LanguageSelector from '../LanguageSelector'
+import LanguageSelector from './LanguageSelector'
 import NavigationButton from './NavigationButton'
 
 const ControlBarContainer = styled.div`
@@ -42,7 +42,10 @@ const ControlBar = () => {
           setView={setView}
         />
       </ButtonsContainer>
-      <LanguageSelector />
+      <LanguageSelector
+        values={['Finnish', 'Swedish', 'English']}
+        defaultValue={'Finnish'}
+      />
     </ControlBarContainer>
   )
 }
