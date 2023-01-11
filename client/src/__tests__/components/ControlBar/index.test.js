@@ -5,20 +5,23 @@ import '@testing-library/jest-dom/extend-expect'
 import ControlBar from '../../../components/ControlBar/'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { LanguageContextProvider } from '../../../contexts/LanguageContext'
 
 describe('<ControlBar>', () => {
   beforeEach(() => {
     render(<ControlBar />, {
       wrapper: ({ children }) => (
         <ThemeProvider theme={theme}>
-          <Router>
-            <Routes>
-              <Route path='/' element={<div>element</div>} />
-              <Route path='/journeys' element={<div>element</div>} />
-              <Route path='/stations' element={<div>element</div>} />
-            </Routes>
-            {children}
-          </Router>
+          <LanguageContextProvider>
+            <Router>
+              <Routes>
+                <Route path='/' element={<div>element</div>} />
+                <Route path='/journeys' element={<div>element</div>} />
+                <Route path='/stations' element={<div>element</div>} />
+              </Routes>
+              {children}
+            </Router>
+          </LanguageContextProvider>
         </ThemeProvider>
       ),
     })
