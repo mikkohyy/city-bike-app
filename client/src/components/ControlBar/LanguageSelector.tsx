@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+import { Language } from '../../../types'
 
 interface LanguageSelectorProps {
-  values: string[]
-  defaultValue: string
+  values: Language[]
+  defaultValue: Language
 }
 
 const Container = styled.div`

@@ -1,3 +1,5 @@
+import { LanguageContextType } from '../../../types'
+import useLanguageSelector from '../../hooks/useLanguageSelector'
 import { useState } from 'react'
 import styled from 'styled-components'
 import LanguageSelector from './LanguageSelector'
@@ -12,6 +14,9 @@ const ButtonsContainer = styled.div`
 `
 
 const ControlBar = () => {
+  const { languageChoices, defaultLanguage }: LanguageContextType =
+    useLanguageSelector()
+
   const [selectedView, setSelectedView] = useState<string | undefined>(
     undefined
   )
@@ -43,8 +48,8 @@ const ControlBar = () => {
         />
       </ButtonsContainer>
       <LanguageSelector
-        values={['Finnish', 'Swedish', 'English']}
-        defaultValue={'Finnish'}
+        values={languageChoices}
+        defaultValue={defaultLanguage}
       />
     </ControlBarContainer>
   )
