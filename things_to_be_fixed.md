@@ -7,3 +7,5 @@
 - In backend I mix require and import styles. They should be unified.
 
 - Database could be normalized in a way where city and operator are in their own table. In addition, language and city could be put in their own tables.
+
+- The types are duplicated. This was because I used Create react app to create the client and apps created with it are quite strict on not importing anything outside the src-folder.
