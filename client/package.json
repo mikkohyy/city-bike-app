@@ -51,6 +51,11 @@
     "@types/testing-library__jest-dom": "^5.14.5",
     "http-proxy-middleware": "^2.0.6",
     "prettier": "^2.8.1",
+    "ts-jest": "^29.0.4",
     "typescript": "^4.9.4"
+  },
+  "jest": {
+    "transformIgnorePatterns": ["node_modules\/(?!axios)"],
+    "resetMocks": false
   }
 }
