@@ -45,11 +45,7 @@ const LanguageContextProvider = ({ children }: { children: ReactNode }) => {
         languageChoices,
         selectedLanguage,
         stationNameKey,
-<<<<<<< HEAD
         stationAddressKeyName,
-=======
-        stationAddressKey,
->>>>>>> 8d950cd183c18013ffd4704826add2b05cf64456
         cityNameKey,
         setLanguage,
         defaultLanguage,
