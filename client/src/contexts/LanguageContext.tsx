@@ -28,14 +28,14 @@ const LanguageContextProvider = ({ children }: { children: ReactNode }) => {
   const defaultLanguage: Language = languageChoices[0]
   const [selectedLanguage, setSelectedLanguage] = useState<Language>('Finnish')
   const [stationNameKey, setStationNameKey] = useState<string>('nameInFinnish')
-  const [stationAddressKeyName, setStationAddressKeyNamw] =
+  const [stationAddressKeyName, setStationAddressKeyName] =
     useState<string>('addressInFinnish')
   const [cityNameKey, setCityNameKey] = useState<string>('cityInFinnish')
 
   const setLanguage = (language: Language) => {
     setSelectedLanguage(language)
     setStationNameKey(stationNameKeys[language])
-    setStationAddressKeyNamw(stationAddressKeys[language])
+    setStationAddressKeyName(stationAddressKeys[language])
     setCityNameKey(cityNameKeys[language])
   }
 
@@ -45,7 +45,11 @@ const LanguageContextProvider = ({ children }: { children: ReactNode }) => {
         languageChoices,
         selectedLanguage,
         stationNameKey,
+<<<<<<< HEAD
         stationAddressKeyName,
+=======
+        stationAddressKey,
+>>>>>>> 8d950cd183c18013ffd4704826add2b05cf64456
         cityNameKey,
         setLanguage,
         defaultLanguage,
