@@ -30,6 +30,19 @@ const containers = {
       gap: '1em',
     },
   },
+  paginator: {
+    mainContainer: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      padding: '0.5em 1em 0.5em 1em',
+      gap: '0.5em',
+    },
+    buttonContainer: {
+      display: 'flex',
+      gap: '0.5em',
+    },
+  },
   languageSelector: {
     display: 'flex',
     alignItems: 'center',
@@ -79,6 +92,24 @@ const buttons = {
     },
     hovered: {
       color: palette.darker,
+      cursor: 'pointer',
+    },
+  },
+  paginatorButton: {
+    active: {
+      fontSize: '1.1em',
+      borderRadius: '0.2em',
+      background: 'lightblue',
+    },
+    passive: {
+      fontSize: '1.1em',
+      borderRadius: '0.2em',
+      color: 'grey',
+      background: 'lightgrey',
+    },
+    hovered: {
+      background: 'blue',
+      cursor: 'pointer',
     },
   },
 }
