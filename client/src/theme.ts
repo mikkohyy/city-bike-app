@@ -4,6 +4,8 @@ const palette = {
   dark: '#6ddada',
   light: '#ffffff',
   selected: '#ffffff',
+  headerRow: 'red',
+  bodyRow: 'blue',
 }
 
 const generalProperties = {
@@ -36,6 +38,37 @@ const containers = {
   },
 }
 
+const tables = {
+  cell: {
+    header: {
+      fontWeight: 'bold',
+    },
+    body: {
+      fontWeight: 'normal',
+    },
+  },
+  row: {
+    display: 'grid',
+    fontSize: '1.5em',
+    padding: '0.5em',
+  },
+  headerRow: {
+    background: 'grey',
+    fontWeight: 'bold',
+  },
+  bodyRow: {
+    even: {
+      background: '#ffffff',
+    },
+    odd: {
+      background: 'lightgrey',
+    },
+  },
+  stationsRow: {
+    gridTemplateColumns: '2fr 2fr 2fr',
+  },
+}
+
 const buttons = {
   controlBarButton: {
     basic: {
@@ -56,6 +89,7 @@ const theme = {
   components: {
     containers,
     buttons,
+    tables,
   },
 }
 

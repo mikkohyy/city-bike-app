@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import useLanguageSelector from '../../hooks/useLanguageSelector'
-import { LanguageContextType } from '../../../types'
 import { getStations } from '../../services/stations'
 import { GetStationsResponseData } from '../../../types'
 import { toGetStationsResponseData } from '../../utils/input_proofing'
+import Header from './Header'
+import Body from './Body'
 
 const Stations = () => {
-  const { stationNameKey }: LanguageContextType = useLanguageSelector()
   const [stationsData, setStationsData] = useState<
     GetStationsResponseData | undefined
   >(undefined)
@@ -26,19 +25,8 @@ const Stations = () => {
 
   return (
     <div>
-      {stationsData ? (
-        stationsData.data.map((station) => {
-          return (
-            <div key={station.stationId}>
-              <h1>
-                {station.stationId} {station[stationNameKey]}
-              </h1>
-            </div>
-          )
-        })
-      ) : (
-        <div>Loading..</div>
-      )}
+      <Header />
+      {stationsData ? <Body data={stationsData.data} /> : <div>Loading..</div>}
     </div>
   )
 }
