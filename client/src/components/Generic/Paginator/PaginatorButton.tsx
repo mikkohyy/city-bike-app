@@ -9,11 +9,11 @@ interface PaginatorButtonTypes {
 const StyledButton = styled.button<{ $isActive: boolean }>`
   ${(props) =>
     props.$isActive
-      ? props.theme.components.buttons.paginatorButton.active
-      : props.theme.components.buttons.paginatorButton.passive}
+      ? props.theme.components.buttons.basic.active
+      : props.theme.components.buttons.basic.passive}
   ${(props) =>
     props.$isActive === true
-      ? { ':hover': props.theme.components.buttons.paginatorButton.hovered }
+      ? { ':hover': props.theme.components.buttons.basic.hovered }
       : undefined}
 `
 

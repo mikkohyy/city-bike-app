@@ -18,6 +18,12 @@ const containers = {
     marginRight: generalProperties.marginFromSides,
     border: 'solid 2px black',
   },
+  horizontalFlexbox: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   controlBar: {
     main: {
       display: 'flex',
@@ -35,7 +41,6 @@ const containers = {
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'center',
-      padding: '0.5em 1em 0.5em 1em',
       gap: '0.5em',
     },
     buttonContainer: {
@@ -48,6 +53,11 @@ const containers = {
     alignItems: 'center',
     gap: '0.5em',
     padding: '1em',
+  },
+  inputContainer: {
+    display: 'flex',
+    gap: '0.5em',
+    alignItems: 'center',
   },
 }
 
@@ -95,7 +105,7 @@ const buttons = {
       cursor: 'pointer',
     },
   },
-  paginatorButton: {
+  basic: {
     active: {
       fontSize: '1.1em',
       borderRadius: '0.2em',
