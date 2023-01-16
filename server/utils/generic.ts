@@ -1,4 +1,4 @@
-import { parseInteger } from '../../shared/parsers'
+import { parseInteger, parseString } from '../../shared/parsers'
 
 const getIntegerParameter = (maybeInteger: unknown): number | null => {
   let value
@@ -11,4 +11,15 @@ const getIntegerParameter = (maybeInteger: unknown): number | null => {
   return value
 }
 
-export { getIntegerParameter }
+const getStringParameter = (maybeString: unknown): string | undefined => {
+  let value
+  try {
+    value = parseString(maybeString)
+  } catch (error) {
+    value = undefined
+  }
+
+  return value
+}
+
+export { getIntegerParameter, getStringParameter }

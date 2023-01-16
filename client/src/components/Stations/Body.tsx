@@ -10,7 +10,7 @@ const Body = ({ data }: { data: Station[] }) => {
     <div>
       {data.map((station, index) => (
         <BodyRow
-          key={station.nameInFinnish}
+          key={station.stationId}
           data={station}
           nameKey={stationNameKey}
           evenOrOdd={index % 2 === 0 ? 'even' : 'odd'}
