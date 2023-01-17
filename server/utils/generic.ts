@@ -1,11 +1,11 @@
 import { parseInteger, parseString } from '../../shared/parsers'
 
-const getIntegerParameter = (maybeInteger: unknown): number | null => {
+const getIntegerParameter = (maybeInteger: unknown): number | undefined => {
   let value
   try {
     value = parseInteger(maybeInteger)
   } catch (error) {
-    value = null
+    value = undefined
   }
 
   return value

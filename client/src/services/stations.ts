@@ -5,15 +5,17 @@ const baseRoute = '/api/stations'
 const getStations = async (
   page: number,
   pageSize: number,
-  searchTerm?: string,
-  language?: Language
+  orderBy: string,
+  orderDirection: string,
+  language: Language,
+  searchTerm?: string
 ) => {
-  let parameterString = `${baseRoute}?page=${page}&pageSize=${pageSize}`
+  let parameterString = `
+    ${baseRoute}?page=${page}&pageSize=${pageSize}&orderBy=${orderBy}&orderDirection=${orderDirection}&language=${language}
+  `
 
-  if (searchTerm && language) {
-    parameterString = parameterString.concat(
-      `&search=${searchTerm}&language=${language.toLowerCase()}`
-    )
+  if (searchTerm) {
+    parameterString = parameterString.concat(`&search=${searchTerm}`)
   }
 
   const foundStations = await axios.get(parameterString)

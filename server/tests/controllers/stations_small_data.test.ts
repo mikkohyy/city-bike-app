@@ -10,6 +10,7 @@ import {
   getLastIdOfStations,
   journeysInSnakeCaseWithSetDatabaseId,
   getLastIdOfJourneys,
+  getOrderedStationsInCamelCase,
 } from '../test_data'
 
 import { resetDatabase } from '../database_manipulation'
@@ -227,14 +228,12 @@ describe('Stations route with small dataset', () => {
   describe('Searching', () => {
     describe('GET /api/stations?search=keila&language=finnish (when the language is finnish)', () => {
       let receivedData: Response
-      const page = 0
-      const pageSize = 50
       const searchTerm = 'keila'
       const searchLanguage = 'finnish'
 
       beforeAll(async () => {
         receivedData = await api.get(
-          `/api/stations?page=${page}&pageSize=${pageSize}&search=${searchTerm}&language=${searchLanguage}`
+          `/api/stations?search=${searchTerm}&language=${searchLanguage}`
         )
       })
 
@@ -264,14 +263,12 @@ describe('Stations route with small dataset', () => {
     })
     describe('GET /api/stations?search=kägel&language=swedish (when the language is swedish)', () => {
       let receivedData: Response
-      const page = 0
-      const pageSize = 50
       const searchTerm = 'kägel'
       const searchLanguage = 'swedish'
 
       beforeAll(async () => {
         receivedData = await api.get(
-          `/api/stations?page=${page}&pageSize=${pageSize}&search=${searchTerm}&language=${searchLanguage}`
+          `/api/stations?search=${searchTerm}&language=${searchLanguage}`
         )
       })
 
@@ -300,14 +297,12 @@ describe('Stations route with small dataset', () => {
     })
     describe('GET /api/stations?search=keila&language=english (when the language is english)', () => {
       let receivedData: Response
-      const page = 0
-      const pageSize = 50
       const searchTerm = 'keila'
       const searchLanguage = 'english'
 
       beforeAll(async () => {
         receivedData = await api.get(
-          `/api/stations?page=${page}&pageSize=${pageSize}&search=${searchTerm}&language=${searchLanguage}`
+          `/api/stations?&search=${searchTerm}&language=${searchLanguage}`
         )
       })
 
@@ -332,6 +327,204 @@ describe('Stations route with small dataset', () => {
         for (const station of expectedStationNames) {
           expect(receivedStationNames).toContain(station)
         }
+      })
+    })
+  })
+
+  describe('Ordering', () => {
+    describe('by station id', () => {
+      describe('GET /api/stations?orderBy=stationId&orderDirection=descending (stationId, descending)', () => {
+        let receivedData: Response
+        const orderBy = 'stationId'
+        const orderDirection = 'descending'
+
+        beforeAll(async () => {
+          receivedData = await api.get(
+            `/api/stations?&orderBy=${orderBy}&orderDirection=${orderDirection}`
+          )
+        })
+
+        test('responds with JSON', () => {
+          expect(receivedData.type).toBe('application/json')
+        })
+        test('responds with status code 200', () => {
+          expect(receivedData.statusCode).toBe(200)
+        })
+
+        test('returns expected number of stations', () => {
+          expect(receivedData.body.data).toHaveLength(10)
+        })
+
+        test('returns stations in expected order', () => {
+          const expectedData = getOrderedStationsInCamelCase(
+            'stationId',
+            'descending'
+          )
+          expect(receivedData.body.data).toEqual(expectedData)
+        })
+      })
+      describe('GET /api/stations?orderBy=stationId&orderDirection=ascending (stationId, ascending)', () => {
+        let receivedData: Response
+        const orderBy = 'stationId'
+        const orderDirection = 'ascending'
+
+        beforeAll(async () => {
+          receivedData = await api.get(
+            `/api/stations?&orderBy=${orderBy}&orderDirection=${orderDirection}`
+          )
+        })
+
+        test('responds with JSON', () => {
+          expect(receivedData.type).toBe('application/json')
+        })
+        test('responds with status code 200', () => {
+          expect(receivedData.statusCode).toBe(200)
+        })
+
+        test('returns expected number of stations', () => {
+          expect(receivedData.body.data).toHaveLength(10)
+        })
+
+        test('returns stations in expected order', () => {
+          const expectedData = getOrderedStationsInCamelCase(
+            'stationId',
+            'ascending'
+          )
+          expect(receivedData.body.data).toEqual(expectedData)
+        })
+      })
+    })
+    describe('by station name', () => {
+      describe('GET /api/stations?language=finnish&orderBy=stationName&orderDirection=descending (station name, descending, finnish)', () => {
+        let receivedData: Response
+        const orderBy = 'stationName'
+        const orderDirection = 'descending'
+        const language = 'finnish'
+
+        beforeAll(async () => {
+          receivedData = await api.get(
+            `/api/stations?language=${language}&orderBy=${orderBy}&orderDirection=${orderDirection}`
+          )
+        })
+
+        test('responds with JSON', () => {
+          expect(receivedData.type).toBe('application/json')
+        })
+        test('responds with status code 200', () => {
+          expect(receivedData.statusCode).toBe(200)
+        })
+
+        test('returns expected number of stations', () => {
+          expect(receivedData.body.data).toHaveLength(10)
+        })
+
+        test('returns stations in expected order', () => {
+          const expectedData = getOrderedStationsInCamelCase(
+            'nameInFinnish',
+            'descending'
+          )
+          expect(receivedData.body.data).toEqual(expectedData)
+        })
+      })
+      describe('GET /api/stations?language=swedish&orderBy=stationName&orderDirection=ascending (station name, ascending, swedish)', () => {
+        let receivedData: Response
+        const orderBy = 'stationName'
+        const orderDirection = 'ascending'
+        const language = 'swedish'
+
+        beforeAll(async () => {
+          receivedData = await api.get(
+            `/api/stations?language=${language}&orderBy=${orderBy}&orderDirection=${orderDirection}`
+          )
+          console.log(receivedData.body.data)
+        })
+
+        test('responds with JSON', () => {
+          expect(receivedData.type).toBe('application/json')
+        })
+        test('responds with status code 200', () => {
+          expect(receivedData.statusCode).toBe(200)
+        })
+
+        test('returns expected number of stations', () => {
+          expect(receivedData.body.data).toHaveLength(10)
+        })
+
+        test('returns stations in expected order', () => {
+          const expectedData = getOrderedStationsInCamelCase(
+            'nameInSwedish',
+            'ascending'
+          )
+          expect(receivedData.body.data).toEqual(expectedData)
+        })
+      })
+    })
+  })
+
+  describe('Combinations of query parameters', () => {
+    describe("Search Term: 'a', Order: station name, Direction: ascending, Language: english, Page: 0 and Page size: 2", () => {
+      let receivedData: Response
+      const orderBy = 'stationName'
+      const orderDirection = 'ascending'
+      const language = 'english'
+      const searchTerm = 'a'
+      const page = 0
+      const pageSize = 2
+
+      beforeAll(async () => {
+        receivedData = await api.get(
+          `/api/stations?search=${searchTerm}&page=${page}&pageSize=${pageSize}&language=${language}&orderBy=${orderBy}&orderDirection=${orderDirection}`
+        )
+      })
+
+      test('responds with JSON', () => {
+        expect(receivedData.type).toBe('application/json')
+      })
+      test('responds with status code 200', () => {
+        expect(receivedData.statusCode).toBe(200)
+      })
+
+      test('returns expected number of stations', () => {
+        expect(receivedData.body.data).toHaveLength(2)
+      })
+
+      test('returns stations in expected order', () => {
+        const expectedData = [
+          stationsInCamelCaseWithSetDatabaseId[8],
+          stationsInCamelCaseWithSetDatabaseId[3],
+        ]
+        expect(receivedData.body.data).toEqual(expectedData)
+      })
+    })
+    describe("Search Term: 'käg', Order: station name, Direction: descending, Language: swedish, Page: 1 and Page size: 1", () => {
+      let receivedData: Response
+      const orderBy = 'stationName'
+      const orderDirection = 'descending'
+      const language = 'swedish'
+      const searchTerm = 'käg'
+      const page = 1
+      const pageSize = 1
+
+      beforeAll(async () => {
+        receivedData = await api.get(
+          `/api/stations?search=${searchTerm}&page=${page}&pageSize=${pageSize}&language=${language}&orderBy=${orderBy}&orderDirection=${orderDirection}`
+        )
+      })
+
+      test('responds with JSON', () => {
+        expect(receivedData.type).toBe('application/json')
+      })
+      test('responds with status code 200', () => {
+        expect(receivedData.statusCode).toBe(200)
+      })
+
+      test('returns expected number of stations', () => {
+        expect(receivedData.body.data).toHaveLength(1)
+      })
+
+      test('returns stations in expected order', () => {
+        const expectedData = [stationsInCamelCaseWithSetDatabaseId[2]]
+        expect(receivedData.body.data).toEqual(expectedData)
       })
     })
   })

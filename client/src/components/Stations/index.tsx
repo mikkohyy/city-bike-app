@@ -7,11 +7,17 @@ import Header from './Header'
 import Body from './Body'
 import Paginator from '../Generic/Paginator'
 import Search from './Search'
+import OrderSelector from './OrderSelector'
 import styled from 'styled-components'
 
 const ControlsContainer = styled.div`
   ${(props) => props.theme.components.containers.horizontalFlexbox};
   padding: 0.5em 1em 0.5em 1em;
+`
+
+const TableControlsContainer = styled.div`
+  display: flex;
+  gap: 1em;
 `
 
 const SearchFooter = styled.div`
@@ -25,21 +31,26 @@ const Stations = () => {
   const [stationsData, setStationsData] = useState<
     GetStationsResponseData | undefined
   >(undefined)
-
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const [orderBy, setOrderBy] = useState<string>('stationId')
+  const [orderDirection, setOrderDirection] = useState<string>('ascending')
 
   const fetchStations = async (
     page: number,
     pageSize: number,
-    searchTerm?: string,
-    language?: Language
+    orderBy: string,
+    orderDirection: string,
+    language: Language,
+    searchTerm?: string
   ) => {
     try {
       const receivedData = await getStations(
         page,
         pageSize,
-        searchTerm,
-        language
+        orderBy,
+        orderDirection,
+        language,
+        searchTerm
       )
       setStationsData(toGetStationsResponseData(receivedData))
     } catch (error) {
@@ -48,15 +59,22 @@ const Stations = () => {
   }
 
   useEffect(() => {
-    fetchStations(0, 50)
-  }, [])
+    fetchStations(0, 50, orderBy, orderDirection, selectedLanguage)
+  }, [orderBy, orderDirection, selectedLanguage])
 
   const handlePageChange = async (pageToBeMovedTo: number) => {
-    fetchStations(pageToBeMovedTo, 50, searchTerm, selectedLanguage)
+    fetchStations(
+      pageToBeMovedTo,
+      50,
+      orderBy,
+      orderDirection,
+      selectedLanguage,
+      searchTerm
+    )
   }
 
   const handleSearch = async () => {
-    fetchStations(0, 50, searchTerm, selectedLanguage)
+    fetchStations(0, 50, orderBy, orderDirection, selectedLanguage, searchTerm)
   }
 
   return (
@@ -64,11 +82,17 @@ const Stations = () => {
       {stationsData ? (
         <div>
           <ControlsContainer>
-            <Search
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              handleSearch={handleSearch}
-            />
+            <TableControlsContainer>
+              <Search
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+              />
+              <OrderSelector
+                setOrderBy={setOrderBy}
+                setOrderDirection={setOrderDirection}
+              />
+            </TableControlsContainer>
             <Paginator
               page={stationsData.page}
               pageSize={stationsData.pageSize}

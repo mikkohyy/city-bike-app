@@ -42,7 +42,7 @@ const Search = ({ searchTerm, setSearchTerm, handleSearch }: SearchProps) => {
   return (
     <SearchContainer>
       <InputContainer>
-        <label htmlFor={'searchField'}>Search:</label>
+        <label htmlFor={'searchField'}>Search with station name:</label>
         <StyledInput
           name='searchField'
           id='searchField'

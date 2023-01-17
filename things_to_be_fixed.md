@@ -11,3 +11,5 @@
 - The types are duplicated. This was because I used Create react app to create the client and apps created with it are quite strict on not importing anything outside the src-folder.
 
 - Search from the database works in the principle of "starts with". other ways to find matches could be good.
+
+- Backend should check parameters, that is, if a query string with orderby (or with search), language should also be defined in the request

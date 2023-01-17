@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { transformSnakeCaseObjectToCamelCase } from './test_helpers'
 
 const stationsInSnakeCaseWithSetDatabaseId = [
@@ -157,6 +158,36 @@ const stationsInCamelCaseWithSetDatabaseId =
   stationsInSnakeCaseWithSetDatabaseId.map((station) =>
     transformSnakeCaseObjectToCamelCase(station)
   )
+
+const getOrderedStationsInCamelCase = (
+  orderBy: string,
+  direction: string
+): object[] => {
+  const compareFunction = (
+    a: { [key: string]: string },
+    b: { [key: string]: string }
+  ): number => {
+    let comparison = 0
+
+    const firstValue = a[orderBy]
+    const secondValue = b[orderBy]
+
+    if (firstValue < secondValue) {
+      comparison = direction === 'ascending' ? -1 : 1
+    }
+
+    if (firstValue > secondValue) {
+      comparison = direction === 'ascending' ? 1 : -1
+    }
+
+    return comparison
+  }
+
+  const stations = [...stationsInCamelCaseWithSetDatabaseId]
+  const orderedStations = stations.sort(compareFunction)
+
+  return orderedStations
+}
 
 const getLastIdOfStations = () => {
   const lastStationIndex = stationsInSnakeCaseWithSetDatabaseId.length - 1
@@ -449,6 +480,7 @@ export {
   stationsInSnakeCaseWithSetDatabaseId,
   getLastIdOfStations,
   stationsInCamelCaseWithSetDatabaseId,
+  getOrderedStationsInCamelCase,
   journeysInSnakeCaseWithSetDatabaseId,
   getLastIdOfJourneys,
 }
