@@ -97,7 +97,6 @@ const addOrderingParametersIfNeeded = (
   if (
     orderBy &&
     orderDirection &&
-    language &&
     hasNecessaryOrderingParameters(orderBy, language)
   ) {
     const orderingArray = getOrderParameters(orderBy, orderDirection, language)
@@ -126,7 +125,7 @@ const getLimit = (pageSize: number | undefined): number => {
 const getOrderParameters = (
   orderBy: string,
   orderDirection: string,
-  language: string
+  language: string | undefined
 ): string[][] => {
   const byColumn = getOrderingColumnName(orderBy, language)
   const direction = orderDirection === 'ascending' ? 'ASC' : 'DESC'
@@ -149,7 +148,10 @@ const getQueryObject = (query: ParsedQs): QueryObject => {
   return queryObject
 }
 
-const getOrderingColumnName = (orderBy: string, language: string): string => {
+const getOrderingColumnName = (
+  orderBy: string,
+  language: string | undefined
+): string => {
   const columnChoices: { [key: string]: string } = {
     stationId: 'stationId',
   }
@@ -177,7 +179,12 @@ const hasNecessaryOrderingParameters = (
   return shouldAdd
 }
 
-const getLanguageKeyForStationName = (language: string): string => {
+const getLanguageKeyForStationName = (language: string | undefined): string => {
+  if (language === undefined) {
+    throw new Error(
+      'When ordering by column name, language parameter is needed'
+    )
+  }
   const languageInLowCase = language.toLowerCase()
 
   const keys: Record<string, string> = {
