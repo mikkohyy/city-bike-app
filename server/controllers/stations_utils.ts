@@ -12,17 +12,17 @@ interface QueryObject {
   orderDirection: string | undefined
 }
 
-interface FindAllObjectTypes {
+interface FindAllObject {
   offset?: number
   limit?: number
   order?: string[][]
   where?: object
 }
 
-const getSearchParametersObject = (query: ParsedQs): FindAllObjectTypes => {
+const getSearchParametersObject = (query: ParsedQs): FindAllObject => {
   const queryParameters = getQueryObject(query)
 
-  let parameters: FindAllObjectTypes = {
+  let parameters: FindAllObject = {
     offset: getOffset(queryParameters),
     limit: getLimit(queryParameters),
   }
@@ -34,9 +34,9 @@ const getSearchParametersObject = (query: ParsedQs): FindAllObjectTypes => {
 }
 
 const addOrderingParametersIfNeeded = (
-  parameters: FindAllObjectTypes,
+  parameters: FindAllObject,
   queryParameters: QueryObject
-): FindAllObjectTypes => {
+): FindAllObject => {
   const { orderBy, orderDirection, language } = queryParameters
 
   if (orderBy && orderDirection) {
@@ -48,9 +48,9 @@ const addOrderingParametersIfNeeded = (
 }
 
 const addSearchParametersIfNeeded = (
-  parameters: FindAllObjectTypes,
+  parameters: FindAllObject,
   queryParameters: QueryObject
-): FindAllObjectTypes => {
+): FindAllObject => {
   const { searchTerm, language } = queryParameters
 
   if (searchTerm && language) {
